@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Simple_Inventory_Management_System
+{
+    public class Menu
+    {
+        private readonly Inventory _inventory;
+        public Menu(Inventory inventory)
+        {
+            _inventory = inventory;
+        }
+
+        public void Run()
+        {
+            bool running = true;
+            while (running)
+            {
+                Console.WriteLine();
+                Console.WriteLine("1. Add product");
+                Console.WriteLine("2. View all products");
+                Console.WriteLine("3. Edit a product");
+                Console.WriteLine("4. Delete a product");
+                Console.WriteLine("5. Search for a product");
+                Console.WriteLine("6. Exit");
+                Console.Write("Choose an option: ");
+
+                string choice = Console.ReadLine() ?? "";
+
+                switch (choice)
+                {
+                    case "1":
+                        AddProduct();
+                        break;
+                    case "6":
+                        running = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        break;
+
+                }
+
+            }
+        }
+
+
+
+        private void AddProduct()
+        {
+            Console.WriteLine("Add product Name : ");
+            string name = (Console.ReadLine() ?? "").Trim();
+            if (name == "")
+            {
+                Console.WriteLine("The name cannot be empty.");
+                return;
+            }
+
+            // Check by name first to avoid asking for price/quantity when product exists
+            if (_inventory.Exists(name))
+            {
+                Console.WriteLine("A product with the same name already exists.");
+                return;
+            }
+
+            decimal price = ReadPrice();
+            int quantity = ReadQuantity();
+
+            Product product = new Product(name, price, quantity);
+
+            if (_inventory.Add(product))
+            {
+                Console.WriteLine("Product Added");
+            }
+            else
+            {
+                Console.WriteLine("A product with the same name already exists.");
+            }
+        }
+
+        private decimal ReadPrice()
+        {
+            while (true)
+            {
+                Console.WriteLine("Price : (Press Enter for 0)");
+                string input = Console.ReadLine() ?? "";
+                if (input == "")
+                {
+                    return 0;
+                }
+                if (decimal.TryParse(input, out decimal price) && price >= 0)
+                {
+                    return price;
+                }
+                Console.WriteLine("Invalid price. Please enter a valid non-negative number.");
+            }
+        }
+
+        private int ReadQuantity()
+        {
+            while (true)
+            {
+                Console.WriteLine("Quantity : (Press Enter for 0)");
+                string input = Console.ReadLine() ?? "";
+                if (input == "")
+                {
+                    return 0;
+                }
+                if (int.TryParse(input, out int quantity) && quantity >= 0)
+                {
+                    return quantity;
+                }
+                Console.WriteLine("Invalid quantity. Please enter a valid non negative integer.");
+            }
+        }
+    }
+}
