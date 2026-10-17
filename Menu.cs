@@ -38,6 +38,9 @@
                     case "4":
                         DeleteProduct();
                         break;
+                    case "5":
+                        SearchProduct();
+                        break;
                     case "6":
                         running = false;
                         break;
@@ -204,5 +207,21 @@
                 System.Console.WriteLine("Product not found.");
             }
         }
+    
+        private void SearchProduct()
+        {
+            System.Console.WriteLine("Enter the product name to search: ");
+            string name = (Console.ReadLine() ?? "").Trim();
+            Product? product = _inventory.GetByName(name);
+
+            if (product != null)
+            {
+                System.Console.WriteLine($"Found product: Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
+            }
+            else
+            {
+                System.Console.WriteLine("Product not found.");
+            }
+        }    
     }
 }
