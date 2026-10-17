@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Simple_Inventory_Management_System
+﻿namespace Simple_Inventory_Management_System
 {
     public class Product
     {
-        public string Name { get; set; }
-        public decimal Price { get; set; }
-        public int Quantity { get; set; }
+        public string Name { get; private set; }
+        public decimal Price { get; private set; }
+        public int Quantity { get; private set; }
 
         public Product(string name, decimal Price, int quantity)
         {
@@ -16,6 +12,20 @@ namespace Simple_Inventory_Management_System
             this.Price = Price;
             this.Quantity = quantity;
         }
+        public void Rename(string name)
+        {
+            Name = name;
+        }
+
+        public void ChangePrice(decimal price)
+        {
+            Price = price;
+        }
+        public void ChangeQuantity(int quantity)
+        {
+            Quantity = quantity;
+        }
 
     }
+
 }

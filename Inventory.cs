@@ -35,6 +35,65 @@ namespace Simple_Inventory_Management_System
         {
             return _products.AsReadOnly();
         }
+
+        public Product? GetByName(string name)
+        {
+            foreach (Product product in _products)
+            {
+                if (string.Equals(product.Name, name, StringComparison.OrdinalIgnoreCase))
+                {
+                    return product;
+                }
+            }
+            return null;
+        }
+
+        public bool ChangeName(Product product, string newName)
+        {
+            newName = newName.Trim();
+            if (string.IsNullOrEmpty(newName) || !_products.Contains(product))
+            {
+                return false;
+            }
+
+            foreach (Product existingProduct in _products)
+            {
+                if (existingProduct != product && string.Equals(existingProduct.Name, newName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+                }
+
+                product.Rename(newName);
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public bool ChangePrice(Product product, decimal price)
+        {
+            if (!_products.Contains(product))
+            {
+                return false;
+            }
+
+            product.ChangePrice(price);
+            return true;
+
+
+        }
+
+        public bool ChangeQuantity(Product product, int quantity)
+        {
+            if (!_products.Contains(product))
+            {
+                return false;
+            }
+
+            product.ChangeQuantity(quantity);
+            return true;
+        }
     }
 
 

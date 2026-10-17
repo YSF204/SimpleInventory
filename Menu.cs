@@ -36,6 +36,9 @@ namespace Simple_Inventory_Management_System
                     case "2":
                         ViewAllProducts();
                         break;
+                    case "3":
+                        EditProduct();
+                        break;
                     case "6":
                         running = false;
                         break;
@@ -118,7 +121,6 @@ namespace Simple_Inventory_Management_System
             }
         }
 
-
         private void ViewAllProducts()
         {
             IReadOnlyList<Product> products = _inventory.GetAll();
@@ -132,5 +134,61 @@ namespace Simple_Inventory_Management_System
                 System.Console.WriteLine($"Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
             }
         }
+
+        private void EditProduct()
+        {
+            Console.Write("Enter the product name: ");
+            string name = (Console.ReadLine() ?? "").Trim();
+
+            Product? product = _inventory.GetByName(name);
+
+            if (product == null)
+            {
+                Console.WriteLine("Product not found.");
+                return;
+            }
+
+            Console.WriteLine("1. Change name");
+            Console.WriteLine("2. Change price");
+            Console.WriteLine("3. Change quantity");
+            Console.WriteLine("4. Cancel");
+            Console.Write("Choose what to edit: ");
+
+            string choice = Console.ReadLine() ?? "";
+
+            switch (choice)
+            {
+                case "1":
+                    Console.Write("Enter the new name: ");
+                    string newName = Console.ReadLine() ?? "";
+                    if (_inventory.ChangeName(product, newName))
+                    {
+                        Console.WriteLine($"Name updated to {newName}.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("That name is empty or already in use.");
+                    }
+                    break;
+
+                case "2":
+                    _inventory.ChangePrice(product, ReadPrice());
+                    Console.WriteLine("Price updated.");
+                    break;
+
+                case "3":
+                    _inventory.ChangeQuantity(product, ReadQuantity());
+                    Console.WriteLine("Quantity updated.");
+                    break;
+
+                case "4":
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid choice.");
+                    break;
+            }
+        }
+
     }
 }
