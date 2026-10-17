@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Simple_Inventory_Management_System
+﻿namespace Simple_Inventory_Management_System
 {
     public class Menu
     {
@@ -38,6 +34,9 @@ namespace Simple_Inventory_Management_System
                         break;
                     case "3":
                         EditProduct();
+                        break;
+                    case "4":
+                        DeleteProduct();
                         break;
                     case "6":
                         running = false;
@@ -190,5 +189,20 @@ namespace Simple_Inventory_Management_System
             }
         }
 
+        private void DeleteProduct ()
+        {
+            System.Console.WriteLine("Enter the product name to delete: ");
+            string name = (Console.ReadLine() ?? "").Trim();
+            Product? product = _inventory.GetByName(name);
+
+            if (product != null && _inventory.Remove(product))
+            {
+                System.Console.WriteLine("Product deleted.");
+            }
+            else
+            {
+                System.Console.WriteLine("Product not found.");
+            }
+        }
     }
 }

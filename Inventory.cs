@@ -94,6 +94,15 @@ namespace Simple_Inventory_Management_System
             product.ChangeQuantity(quantity);
             return true;
         }
+        public bool Remove(Product product)
+        {
+            return _products.Remove(product);
+        }
+
+        internal bool Remove(string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 
