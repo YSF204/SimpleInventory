@@ -1,7 +1,4 @@
-﻿using System;
-using System.Security.AccessControl;
-
-
+﻿
 namespace Simple_Inventory_Management_System
 {
     public class Inventory
@@ -13,7 +10,7 @@ namespace Simple_Inventory_Management_System
         {
             foreach (Product existingProduct in _products)
             {
-                if (string.Equals(existingProduct.name, name, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(existingProduct.Name, name, StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }
@@ -23,8 +20,9 @@ namespace Simple_Inventory_Management_System
 
         public bool Add(Product product)
         {
-            foreach(Product existingProduct in _products){
-                if(string.Equals(existingProduct.name ,product.name, StringComparison.OrdinalIgnoreCase))
+            foreach (Product existingProduct in _products)
+            {
+                if (string.Equals(existingProduct.Name, product.Name, StringComparison.OrdinalIgnoreCase))
                 {
                     return false;
                 }
@@ -32,5 +30,12 @@ namespace Simple_Inventory_Management_System
             _products.Add(product);
             return true;
         }
+
+        public IReadOnlyList<Product> GetAll()
+        {
+            return _products.AsReadOnly();
+        }
     }
+
+
 }

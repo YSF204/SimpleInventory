@@ -33,6 +33,9 @@ namespace Simple_Inventory_Management_System
                     case "1":
                         AddProduct();
                         break;
+                    case "2":
+                        ViewAllProducts();
+                        break;
                     case "6":
                         running = false;
                         break;
@@ -58,7 +61,6 @@ namespace Simple_Inventory_Management_System
                 return;
             }
 
-            // Check by name first to avoid asking for price/quantity when product exists
             if (_inventory.Exists(name))
             {
                 Console.WriteLine("A product with the same name already exists.");
@@ -113,6 +115,21 @@ namespace Simple_Inventory_Management_System
                     return quantity;
                 }
                 Console.WriteLine("Invalid quantity. Please enter a valid non negative integer.");
+            }
+        }
+
+
+        private void ViewAllProducts()
+        {
+            IReadOnlyList<Product> products = _inventory.GetAll();
+            if (products.Count == 0)
+            {
+                System.Console.WriteLine("No products in the inventory.");
+                return;
+            }
+            foreach (Product product in products)
+            {
+                System.Console.WriteLine($"Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
             }
         }
     }
